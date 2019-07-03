@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'react-dropzone-uploader/dist/styles.css'
+import Dropzone from 'react-dropzone-uploader'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    // specify upload params and url for your files
+    const getUploadParams = ({meta}) => {
+        return {url: 'https://httpbin.org/post'}
+    }
+
+    // called every time a file's `status` changes
+    const handleChangeStatus = ({meta, file}, status) => {
+        console.log(status, meta, file)
+
+    }
+
+    // receives array of files that are done uploading when submit button is clicked
+    const handleSubmit = (files) => {
+        console.log(files.map(f => f.meta))
+    }
+
+    return (
+        <div className="main-div">
+            <h1>File Uploader</h1>
+            <Dropzone
+                getUploadParams={getUploadParams}
+                onChangeStatus={handleChangeStatus}
+                onSubmit={handleSubmit}
+            />
+        </div>
+    )
 }
 
 export default App;
